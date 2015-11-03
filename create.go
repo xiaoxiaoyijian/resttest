@@ -32,8 +32,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	Logger.Info("Start to create testcase: %s REST url: %s. \n", *outputFlag, *urlFlag)
-	defer Logger.Info("Create testcase: %s done. \n", *outputFlag)
+	Logger.Infof("Start to create testcase: %s REST url: %s.", *outputFlag, *urlFlag)
+	defer Logger.Infof("Create testcase: %s done.", *outputFlag)
 
 	var auth *testcase_util.Auth
 	client := http.NewAuthClient()
@@ -67,6 +67,8 @@ func usage() {
 Usage:
 
     go run create.go --url=URL [--output=OUTPUT] [--authurl=AUTHURL --authvals=]
+}
+`)
 }
 
 func parseAuthVals(valStr string) map[string]string {

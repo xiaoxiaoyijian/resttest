@@ -1,6 +1,7 @@
 package testcase
 
 import (
+	"fmt"
 	"github.com/bitly/go-simplejson"
 	"github.com/xiaoxiaoyijian/resttest/utils/http"
 	"github.com/xiaoxiaoyijian/resttest/utils/json"
@@ -13,6 +14,8 @@ type Runner struct {
 	testcases  []*Testcase
 	times      int
 	httpClient *http.AuthClient
+	report     *Report
+	email      *Email
 }
 
 func NewRunner(testcases []*Testcase, times int) *Runner {
@@ -24,15 +27,22 @@ func NewRunner(testcases []*Testcase, times int) *Runner {
 		testcases:  testcases,
 		times:      times,
 		httpClient: http.NewAuthClient(),
+		report:     NewReport(testcases, times),
 	}
 }
 
 func (this *Runner) AddCase(testcase *Testcase) {
 	this.testcases = append(this.testcases, testcase)
+	this.report.AddCase(testcase)
 }
 
 func (this *Runner) SetTimes(times int) {
 	this.times = times
+	this.report.SetTimes(times)
+}
+
+func (this *Runner) SetEmail(m *Email) {
+	this.email = m
 }
 
 func (this *Runner) Run() {
@@ -60,15 +70,24 @@ func (this *Runner) Run() {
 				myErr = this.runTestcase(v, n)
 				if myErr != nil {
 					Logger.Infof("Testcase %s[%d] FAILED : %s", v.Name, n, myErr.Error())
-					return
+					this.report.Update(fmt.Sprintf("%s[%d]", v.Name, n), FAILED, myErr.Error())
+					continue
 				} else {
 					Logger.Infof("Testcase %s[%d] PASSED!", v.Name, n)
+					this.report.Update(fmt.Sprintf("%s[%d]", v.Name, n), PASSED, "")
 				}
 			}
 
 		}(i)
 	}
 	wg.Wait()
+
+	reportStr := this.report.String()
+	if this.email != nil {
+		this.email.Send("Testing Report", reportStr)
+	} else {
+		println(reportStr)
+	}
 }
 
 func (this *Runner) runTestcase(testcase *Testcase, n int) error {

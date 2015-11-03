@@ -2,7 +2,7 @@ package json
 
 import (
 	"github.com/bitly/go-simplejson"
-	"log"
+	. "github.com/xiaoxiaoyijian/resttest/utils/logger"
 )
 
 func EncodePretty(b []byte) ([]byte, error) {
@@ -17,10 +17,10 @@ func EncodePretty(b []byte) ([]byte, error) {
 func PrintJson(json *simplejson.Json) {
 	content, err := json.EncodePretty()
 	if err != nil {
-		log.Println(err.Error())
+		Logger.Error(err.Error())
 		return
 	}
 
-	log.Println(string(content))
+	Logger.Info(string(content))
 	return
 }
