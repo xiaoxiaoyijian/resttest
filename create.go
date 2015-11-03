@@ -67,16 +67,6 @@ func usage() {
 Usage:
 
     go run create.go --url=URL [--output=OUTPUT] [--authurl=AUTHURL --authvals=]
-
-Examples:
-    go run create.go --url=http://csc.xibao100.com/rest/user/list?role=2
-
-    go run create.go --url=http://csc.xibao100.com/rest/user/list?role=2 --output=testcase1.json
-
-    go run create.go --url=http://admin.dsp.xibao100.com/csc?do=get-msgs-kefus --authurl=http://admin.dsp.xibao100.com/user/signin --authval=uname:shoutian.yang@xibao100.com;passwd:yangfan
-
-    go run create.go --url=http://admin.dsp.xibao100.com/csc?do=get-msgs-kefus --authurl=http://admin.dsp.xibao100.com/user/signin --authval=uname:shoutian.yang@xibao100.com;passwd:yangfan --output=testcase2.json
-`)
 }
 
 func parseAuthVals(valStr string) map[string]string {
