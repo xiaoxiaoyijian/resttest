@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
+	. "github.com/xiaoxiaoyijian/logger"
 	"github.com/xiaoxiaoyijian/resttest/utils/http"
-	. "github.com/xiaoxiaoyijian/resttest/utils/logger"
 	testcase_util "github.com/xiaoxiaoyijian/resttest/utils/testcase"
 	"math/rand"
 	"os"

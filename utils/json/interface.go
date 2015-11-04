@@ -2,7 +2,7 @@ package json
 
 import (
 	"github.com/bitly/go-simplejson"
-	. "github.com/xiaoxiaoyijian/resttest/utils/logger"
+	. "github.com/xiaoxiaoyijian/logger"
 )
 
 func EncodePretty(b []byte) ([]byte, error) {

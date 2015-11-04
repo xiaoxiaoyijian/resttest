@@ -1,7 +1,7 @@
 package testcase
 
 import (
-	. "github.com/xiaoxiaoyijian/resttest/utils/logger"
+	. "github.com/xiaoxiaoyijian/logger"
 	"net/smtp"
 	"strings"
 )

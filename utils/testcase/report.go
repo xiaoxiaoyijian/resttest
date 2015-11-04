@@ -2,6 +2,7 @@ package testcase
 
 import (
 	"fmt"
+	"sync"
 )
 
 const (
@@ -15,6 +16,7 @@ type Report struct {
 	Times     int
 	Summary   *SummaryReport
 	Failed    []*FailReport
+	m         sync.Mutex
 }
 
 func NewReport(testcases []*Testcase, times int) *Report {
@@ -35,6 +37,9 @@ func (r *Report) SetTimes(times int) {
 }
 
 func (r *Report) Update(testcase string, result int, reason string) {
+	r.m.Lock()
+	defer r.m.Unlock()
+
 	r.Summary.Total += 1
 	switch result {
 	case PASSED:

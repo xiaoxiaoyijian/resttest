@@ -3,9 +3,9 @@ package testcase
 import (
 	"fmt"
 	"github.com/bitly/go-simplejson"
+	. "github.com/xiaoxiaoyijian/logger"
 	"github.com/xiaoxiaoyijian/resttest/utils/http"
 	"github.com/xiaoxiaoyijian/resttest/utils/json"
-	. "github.com/xiaoxiaoyijian/resttest/utils/logger"
 	"runtime"
 	"sync"
 )
@@ -84,7 +84,9 @@ func (this *Runner) Run() {
 
 	reportStr := this.report.String()
 	if this.email != nil {
-		this.email.Send("Testing Report", reportStr)
+		if err := this.email.Send("Testing Report", reportStr); err != nil {
+			Logger.Errorf("Send email failed : %s", err.Error())
+		}
 	} else {
 		println(reportStr)
 	}
